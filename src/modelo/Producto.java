@@ -4,35 +4,35 @@ public class Producto {
 
     private int id;
     private String nombre;
-    private int idMarca;
+    private Marca marca;
     private double precio;
     private double peso;
     private String imei;
-    private int idTipo;
+    private TipoProducto tipo;
     private boolean fragil;
 
     // Constructor por defecto
     public Producto() {
         this.id = 0;
         this.nombre = "";
-        this.idMarca = 0;
+        this.marca = null;       // mejor null que un número
         this.precio = 0.0;
         this.peso = 0.0;
         this.imei = "";
-        this.idTipo = 0;
+        this.tipo = null;        // idem
         this.fragil = false;
     }
 
     // Constructor con parámetros
-    public Producto(int id, String nombre, int idMarca, double precio, double peso, 
-                    String imei, int idTipo, boolean fragil) {
+    public Producto(int id, String nombre, Marca marca, double precio, double peso,
+                    String imei, TipoProducto tipo, boolean fragil) {
         this.id = id;
         this.nombre = nombre;
-        this.idMarca = idMarca;
+        this.marca = marca;
         this.precio = precio;
         this.peso = peso;
         this.imei = imei;
-        this.idTipo = idTipo;
+        this.tipo = tipo;
         this.fragil = fragil;
     }
 
@@ -53,12 +53,12 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public int getIdMarca() {
-        return idMarca;
+    public Marca getMarca() {
+        return marca;
     }
 
-    public void setIdMarca(int idMarca) {
-        this.idMarca = idMarca;
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 
     public double getPrecio() {
@@ -85,12 +85,12 @@ public class Producto {
         this.imei = imei;
     }
 
-    public int getIdTipo() {
-        return idTipo;
+    public TipoProducto getTipo() {
+        return tipo;
     }
 
-    public void setIdTipo(int idTipo) {
-        this.idTipo = idTipo;
+    public void setTipo(TipoProducto tipo) {
+        this.tipo = tipo;
     }
 
     public boolean isFragil() {
