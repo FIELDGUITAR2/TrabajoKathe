@@ -16,7 +16,7 @@ public class ConexionBD {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conexion = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/Cedis", "root", "123456"
+                "jdbc:mysql://localhost:3306/Cedis_bd", "root", "123456"
             );
             sentencia = conexion.createStatement();
             System.out.println("Conexión abierta correctamente.");
