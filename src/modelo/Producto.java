@@ -107,7 +107,7 @@ public class Producto {
     public boolean insertarProducto()
     {
         ConexionBD conexion = new ConexionBD();
-        ProductoDAO productoDAO = new ProductoDAO(this.id,this.nombre,this.marca,this.precio,this.peso,this.imei,this.tipo,this.fragil);
+        ProductoDAO productoDAO = new ProductoDAO();
         conexion.abrir();
         conexion.ejecutarTF(productoDAO.insertarProducto());
         
