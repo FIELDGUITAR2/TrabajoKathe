@@ -1,5 +1,8 @@
 package modelo;
 
+import conexion.ProductoDAO;
+import conexion.ConexionBD;
+
 public class Producto {
 
     private int id;
@@ -99,5 +102,15 @@ public class Producto {
 
     public void setFragil(boolean fragil) {
         this.fragil = fragil;
+    }
+    
+    public boolean insertarProducto()
+    {
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO(this.id,this.nombre,this.marca,this.precio,this.peso,this.imei,this.tipo,this.fragil);
+        conexion.abrir();
+        conexion.ejecutarTF(productoDAO.insertarProducto());
+        
+        return false;
     }
 }

@@ -1,6 +1,5 @@
 package conexion;
 
-import modelo.*;
 
 /**
  *
