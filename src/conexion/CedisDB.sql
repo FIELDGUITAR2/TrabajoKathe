@@ -173,3 +173,44 @@ END$$
 DELIMITER ;
 
 
+DELIMITER $$
+
+-- Trigger para INSERT
+CREATE TRIGGER trg_ins_producto_imei
+BEFORE INSERT ON producto
+FOR EACH ROW
+BEGIN
+    DECLARE tipoNombre VARCHAR(100);
+
+    -- Obtener el nombre del tipo de producto
+    SELECT nombreTipoProducto 
+    INTO tipoNombre
+    FROM tipoProducto
+    WHERE idTipoProducto = NEW.idTipo;
+
+    -- Validar IMEI
+    IF tipoNombre <> 'CELULAR' AND NEW.imei IS NOT NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Solo se permite IMEI si el producto es un CELULAR';
+    END IF;
+END$$
+
+-- Trigger para UPDATE
+CREATE TRIGGER trg_upd_producto_imei
+BEFORE UPDATE ON producto
+FOR EACH ROW
+BEGIN
+    DECLARE tipoNombre VARCHAR(100);
+
+    SELECT nombreTipoProducto 
+    INTO tipoNombre
+    FROM tipoProducto
+    WHERE idTipoProducto = NEW.idTipo;
+
+    IF tipoNombre <> 'CELULAR' AND NEW.imei IS NOT NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Solo se permite IMEI si el producto es un CELULAR';
+    END IF;
+END$$
+
+DELIMITER ;
