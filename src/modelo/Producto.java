@@ -2,6 +2,8 @@ package modelo;
 
 import conexion.ProductoDAO;
 import conexion.ConexionBD;
+import conexion.MarcaDAO;
+import conexion.TipoProductoDAO;
 
 public class Producto {
 
@@ -107,7 +109,11 @@ public class Producto {
     public boolean insertarProducto()
     {
         ConexionBD conexion = new ConexionBD();
-        ProductoDAO productoDAO = new ProductoDAO();
+        TipoProductoDAO tProducto = new TipoProductoDAO();
+        MarcaDAO mProducto = new MarcaDAO();
+        ProductoDAO productoDAO = new ProductoDAO(
+        
+        );
         conexion.abrir();
         conexion.ejecutarTF(productoDAO.insertarProducto());
         
