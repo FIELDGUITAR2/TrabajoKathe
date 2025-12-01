@@ -1,15 +1,17 @@
 package conexion;
 
+import modelo.Marca;
+import modelo.TipoProducto;
 
 public class ProductoDAO {
 
     private int id;
     private String nombre;
-    private MarcaDAO marca;
+    private Marca marca;
     private double precio;
     private double peso;
     private String imei;
-    private TipoProductoDAO tipo;
+    private TipoProducto tipo;
     private boolean fragil;
 
     // Constructor por defecto
@@ -25,8 +27,8 @@ public class ProductoDAO {
     }
 
     // Constructor con parámetros
-    public ProductoDAO(int id, String nombre, MarcaDAO marca, double precio, double peso,
-                    String imei, TipoProductoDAO tipo, boolean fragil) {
+    public ProductoDAO(int id, String nombre, Marca marca, double precio, double peso,
+                    String imei, TipoProducto tipo, boolean fragil) {
         this.id = id;
         this.nombre = nombre;
         this.marca = marca;
@@ -54,11 +56,11 @@ public class ProductoDAO {
         this.nombre = nombre;
     }
 
-    public MarcaDAO getMarca() {
+    public Marca getMarca() {
         return marca;
     }
 
-    public void setMarca(MarcaDAO marca) {
+    public void setMarca(Marca marca) {
         this.marca = marca;
     }
 
@@ -86,11 +88,11 @@ public class ProductoDAO {
         this.imei = imei;
     }
 
-    public TipoProductoDAO getTipo() {
+    public TipoProducto getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoProductoDAO tipo) {
+    public void setTipo(TipoProducto tipo) {
         this.tipo = tipo;
     }
 

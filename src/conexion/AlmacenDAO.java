@@ -1,5 +1,6 @@
 package conexion;
 
+import modelo.TipoAlmacen;
 /**
  *
  * @author fieldguitar
@@ -7,7 +8,7 @@ package conexion;
 public class AlmacenDAO {
 
     private int idAlmacen;
-    private TipoAlmacenDAO tipoAlmacen;
+    private TipoAlmacen tipoAlmacen;
     private String nombreAlmacen;
 
     // Constructor por defecto
@@ -18,7 +19,7 @@ public class AlmacenDAO {
     }
 
     // Constructor con parámetros
-    public AlmacenDAO(int idAlmacen, TipoAlmacenDAO tipoAlmacen, String nombreAlmacen) {
+    public AlmacenDAO(int idAlmacen, TipoAlmacen tipoAlmacen, String nombreAlmacen) {
         this.idAlmacen = idAlmacen;
         this.tipoAlmacen = tipoAlmacen;
         this.nombreAlmacen = nombreAlmacen;
@@ -33,11 +34,11 @@ public class AlmacenDAO {
         this.idAlmacen = idAlmacen;
     }
 
-    public TipoAlmacenDAO getTipoAlmacen() {
+    public TipoAlmacen getTipoAlmacen() {
         return tipoAlmacen;
     }
 
-    public void setTipoAlmacen(TipoAlmacenDAO tipoAlmacen) {
+    public void setTipoAlmacen(TipoAlmacen tipoAlmacen) {
         this.tipoAlmacen = tipoAlmacen;
     }
 

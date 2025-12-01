@@ -1,7 +1,7 @@
 package conexion;
 
 
-import conexion.ClienteDAO;
+import modelo.Cliente;
 /**
  *
  * @author fieldguitar
@@ -9,7 +9,7 @@ import conexion.ClienteDAO;
 public class FacturaDAO {
     
     private int idFactura;
-    private ClienteDAO cliente;
+    private Cliente cliente;
 
     // Constructor por defecto
     public FacturaDAO() {
@@ -18,7 +18,7 @@ public class FacturaDAO {
     }
 
     // Constructor con parámetros
-    public FacturaDAO(int idFactura, ClienteDAO cliente) {
+    public FacturaDAO(int idFactura, Cliente cliente) {
         this.idFactura = idFactura;
         this.cliente = cliente;
     }
@@ -32,11 +32,11 @@ public class FacturaDAO {
         this.idFactura = idFactura;
     }
 
-    public ClienteDAO getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(ClienteDAO cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
