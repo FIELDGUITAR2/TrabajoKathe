@@ -1,5 +1,13 @@
 package modelo;
 
+import conexion.ConexionBD;
+import conexion.MarcaDAO;
+import conexion.ProductoDAO;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author fieldguitar
@@ -42,5 +50,31 @@ public class Marca {
     @Override
     public String toString() {
         return "Marca{" + "idMarca=" + idMarca + ", nombreMarca='" + nombreMarca + '\'' + '}';
+    }
+    
+    public List<Marca> consultarListaMarcas()
+    {
+        ConexionBD conexion = new ConexionBD();
+        MarcaDAO marcaDAO = new MarcaDAO();
+        List<Marca> listaMarca = new ArrayList<>();
+        try {
+            conexion.abrir();
+            ResultSet rs = conexion.ejecutarTF(marcaDAO.consultarListaMarcas());
+
+            while (rs.next()) {
+                Marca marca = new Marca(
+                        rs.getInt("idMarca"),
+                        rs.getString("nombreMarca")
+                );
+                listaMarca.add(marca);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrar();
+        }
+
+        return listaMarca;
     }
 }

@@ -1,12 +1,11 @@
 package conexion;
 
-
 /**
  *
  * @author fieldguitar
  */
 public class MarcaDAO {
-    
+
     private int idMarca;
     private String nombreMarca;
 
@@ -43,5 +42,13 @@ public class MarcaDAO {
     @Override
     public String toString() {
         return "Marca{" + "idMarca=" + idMarca + ", nombreMarca='" + nombreMarca + '\'' + '}';
+    }
+
+    public String consultarListaMarcas() {
+        return "select\n"
+                + "idMarca,\n"
+                + "nombreMarca\n"
+                + "from marca\n"
+                + "order by nombreMarca;";
     }
 }
