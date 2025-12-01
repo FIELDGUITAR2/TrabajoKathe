@@ -1,12 +1,11 @@
 package conexion;
 
-
 /**
  *
  * @author fieldguitar
  */
 public class TipoProductoDAO {
-    
+
     private int idTipoProducto;
     private String nombreTipoProducto;
 
@@ -42,7 +41,15 @@ public class TipoProductoDAO {
     // Método toString opcional para imprimir fácilmente la información
     @Override
     public String toString() {
-        return "TipoProducto{" + "idTipoProducto=" + idTipoProducto + 
-               ", nombreTipoProducto='" + nombreTipoProducto + '\'' + '}';
+        return "TipoProducto{" + "idTipoProducto=" + idTipoProducto
+                + ", nombreTipoProducto='" + nombreTipoProducto + '\'' + '}';
+    }
+
+    public String mostrarTiposProductos() {
+        return "select\n"
+                + "idTipoProducto,\n"
+                + "nombreTipoProducto\n"
+                + "from tipoProducto\n"
+                + "order by nombreTipoProducto;";
     }
 }
