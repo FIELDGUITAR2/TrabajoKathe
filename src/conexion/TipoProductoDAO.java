@@ -45,4 +45,12 @@ public class TipoProductoDAO {
         return "TipoProducto{" + "idTipoProducto=" + idTipoProducto + 
                ", nombreTipoProducto='" + nombreTipoProducto + '\'' + '}';
     }
+    
+    public String consultarListaTiposProducto() {
+        return "SELECT "
+                + "idTipoProducto, "
+                + "nombreTipoProducto "
+                + "FROM tipoProducto "
+                + "ORDER BY nombreTipoProducto;";
+    }
 }

@@ -3,6 +3,8 @@ package control;
 import modelo.Producto;
 import modelo.Factura;
 import modelo.Cliente;
+import modelo.Marca;
+import modelo.TipoProducto;
 import vista.Formulario;
 
 import java.awt.event.ActionEvent;
@@ -19,6 +21,8 @@ public class Control implements ActionListener {
     private DefaultTableModel modeloTablaVenta;
 
     private List<Producto> productosEnFactura = new ArrayList<>();
+    private List<Marca> marcasDisponibles = new ArrayList<>();
+    private List<TipoProducto> tiposDisponibles = new ArrayList<>();
     private double totalCompra = 0.0;
 
     public Control(Formulario vista) {
@@ -27,7 +31,9 @@ public class Control implements ActionListener {
 
         this.vista.getBtnInsertarEnFactura().addActionListener(this);
         this.vista.getBtnComprar().addActionListener(this);
+        this.vista.getBtnIngresarProducto().addActionListener(this);
 
+        cargarCatalogosProducto();
         cargarProductosConStock();
     }
 
@@ -63,16 +69,122 @@ public class Control implements ActionListener {
         }
     }
 
+    private void cargarCatalogosProducto() {
+        try {
+            Marca marcaModelo = new Marca();
+            marcasDisponibles = marcaModelo.consultarListaMarcas();
+            vista.getCbMarca().removeAllItems();
+            for (Marca marca : marcasDisponibles) {
+                vista.getCbMarca().addItem(marca.getNombreMarca());
+            }
+
+            TipoProducto tipoModelo = new TipoProducto();
+            tiposDisponibles = tipoModelo.consultarListaTiposProducto();
+            vista.getCbTipo().removeAllItems();
+            for (TipoProducto tipo : tiposDisponibles) {
+                vista.getCbTipo().addItem(tipo.getNombreTipoProducto());
+            }
+        } catch (Exception e) {
+            mostrarMensaje("Error al cargar catálogos: " + e.getMessage());
+        }
+    }
+
+    private void limpiarFormularioProducto() {
+        vista.getTxtNombreProducto().setText("");
+        vista.getTxtPeso().setText("");
+        vista.getTxtPrecio().setText("");
+        vista.getTxtImei().setText("");
+        if (vista.getCbMarca().getItemCount() > 0) {
+            vista.getCbMarca().setSelectedIndex(0);
+        }
+        if (vista.getCbTipo().getItemCount() > 0) {
+            vista.getCbTipo().setSelectedIndex(0);
+        }
+    }
+
     private int extraerIdProducto(String texto) {
         int inicio = texto.indexOf("(ID: ") + 5;
         int fin = texto.indexOf(")", inicio);
         return Integer.parseInt(texto.substring(inicio, fin).trim());
     }
 
+    private void insertarNuevoProducto() {
+        try {
+            String nombre = vista.getTxtNombreProducto().getText().trim();
+            if (nombre.isEmpty()) {
+                mostrarMensaje("Ingrese el nombre del producto.");
+                return;
+            }
+
+            if (marcasDisponibles.isEmpty()) {
+                mostrarMensaje("No hay marcas registradas.");
+                return;
+            }
+
+            if (tiposDisponibles.isEmpty()) {
+                mostrarMensaje("No hay tipos de producto registrados.");
+                return;
+            }
+
+            int indiceMarca = vista.getCbMarca().getSelectedIndex();
+            int indiceTipo = vista.getCbTipo().getSelectedIndex();
+
+            if (indiceMarca < 0 || indiceMarca >= marcasDisponibles.size()) {
+                mostrarMensaje("Seleccione una marca válida.");
+                return;
+            }
+
+            if (indiceTipo < 0 || indiceTipo >= tiposDisponibles.size()) {
+                mostrarMensaje("Seleccione un tipo de producto válido.");
+                return;
+            }
+
+            String pesoTexto = vista.getTxtPeso().getText().trim();
+            String precioTexto = vista.getTxtPrecio().getText().trim();
+
+            if (pesoTexto.isEmpty() || precioTexto.isEmpty()) {
+                mostrarMensaje("Peso y precio son obligatorios.");
+                return;
+            }
+
+            double peso = Double.parseDouble(pesoTexto);
+            double precio = Double.parseDouble(precioTexto);
+
+            if (peso <= 0 || precio <= 0) {
+                mostrarMensaje("Peso y precio deben ser mayores que cero.");
+                return;
+            }
+
+            String imei = vista.getTxtImei().getText().trim();
+            Marca marcaSeleccionada = marcasDisponibles.get(indiceMarca);
+            TipoProducto tipoSeleccionado = tiposDisponibles.get(indiceTipo);
+
+            Producto producto = new Producto();
+            producto.setNombre(nombre);
+            producto.setMarca(marcaSeleccionada);
+            producto.setTipo(tipoSeleccionado);
+            producto.setPeso(peso);
+            producto.setPrecio(precio);
+            producto.setImei(imei.isEmpty() ? null : imei);
+            producto.setFragil(!imei.isEmpty());
+            producto.insertarProducto();
+
+            mostrarMensaje("Producto ingresado correctamente.");
+            limpiarFormularioProducto();
+            cargarCatalogosProducto();
+            cargarProductosConStock();
+        } catch (NumberFormatException ex) {
+            mostrarMensaje("Peso y precio deben ser números válidos.");
+        } catch (Exception ex) {
+            mostrarMensaje("Error al ingresar producto: " + ex.getMessage());
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
 
-        if (e.getSource() == vista.getBtnInsertarEnFactura()) {
+        if (source == vista.getBtnInsertarEnFactura()) {
             try {
 
                 String seleccionado = (String) vista.getCbSeleccionarPr().getSelectedItem();
@@ -127,9 +239,10 @@ public class Control implements ActionListener {
             } catch (Exception ex) {
                 mostrarMensaje("Error al insertar producto: " + ex.getMessage());
             }
+            return;
         }
 
-        if (e.getSource() == vista.getBtnComprar()) {
+        if (source == vista.getBtnComprar()) {
             try {
 
                 if (productosEnFactura.isEmpty()) {
@@ -168,6 +281,11 @@ public class Control implements ActionListener {
             } catch (Exception ex) {
                 mostrarMensaje("Error al realizar compra: " + ex.getMessage());
             }
+            return;
+        }
+
+        if (source == vista.getBtnIngresarProducto()) {
+            insertarNuevoProducto();
         }
     }
 }

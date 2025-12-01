@@ -105,9 +105,10 @@ public class ProductoDAO {
     }
 
     public String insertarProducto() {
-        return "insert into producto(nombreProducto,precioUnidad,peso,idTipo,idMarca)\n"
+        String imeiValor = (this.imei == null || this.imei.isBlank()) ? "NULL" : "'" + this.imei + "'";
+        return "INSERT INTO producto(nombreProducto, imei, peso, fragil, precioUnidad, idTipo, idMarca)\n"
                 + "VALUES\n"
-                + "('" + this.nombre + "'," + this.precio + "," + this.peso + "," + this.tipo.getIdTipoProducto() + "," + this.marca.getIdMarca() + ");";
+                + "('" + this.nombre + "'," + imeiValor + "," + this.peso + "," + this.fragil + "," + this.precio + "," + this.tipo.getIdTipoProducto() + "," + this.marca.getIdMarca() + ");";
 
     }
 

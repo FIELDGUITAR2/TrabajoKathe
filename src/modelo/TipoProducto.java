@@ -1,5 +1,12 @@
 package modelo;
 
+import conexion.ConexionBD;
+import conexion.TipoProductoDAO;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author fieldguitar
@@ -43,5 +50,30 @@ public class TipoProducto {
     public String toString() {
         return "TipoProducto{" + "idTipoProducto=" + idTipoProducto + 
                ", nombreTipoProducto='" + nombreTipoProducto + '\'' + '}';
+    }
+    
+    public List<TipoProducto> consultarListaTiposProducto() {
+        ConexionBD conexion = new ConexionBD();
+        TipoProductoDAO tipoProductoDAO = new TipoProductoDAO();
+        List<TipoProducto> tipos = new ArrayList<>();
+        
+        try {
+            conexion.abrir();
+            ResultSet rs = conexion.ejecutarTF(tipoProductoDAO.consultarListaTiposProducto());
+            
+            while (rs.next()) {
+                TipoProducto tipo = new TipoProducto(
+                        rs.getInt("idTipoProducto"),
+                        rs.getString("nombreTipoProducto")
+                );
+                tipos.add(tipo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrar();
+        }
+        
+        return tipos;
     }
 }
