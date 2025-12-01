@@ -211,4 +211,79 @@ public class Producto {
         return productos;
     }
 
+    public List<Producto> obtenerProductosConStock() {
+        List<Producto> productos = new ArrayList<>();
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO();
+
+        try {
+            conexion.abrir();
+            ResultSet rs = conexion.ejecutarTF(productoDAO.obtenerProductosConStock());
+
+            while (rs.next()) {
+                Marca marca = new Marca(
+                        rs.getInt("idMarca"),
+                        rs.getString("marca")
+                );
+
+                Producto producto = new Producto(
+                        rs.getInt("idProducto"),
+                        rs.getString("nombre"),
+                        marca,
+                        rs.getDouble("precio")
+                );
+
+                productos.add(producto);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrar();
+        }
+
+        return productos;
+    }
+
+    public Producto buscarProductoPorId(int idProducto) {
+        Producto producto = null;
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO();
+        productoDAO.setId(idProducto);
+
+        try {
+            conexion.abrir();
+            ResultSet rs = conexion.ejecutarTF(productoDAO.mostrarProducto());
+
+            if (rs.next()) {
+                Marca marca = new Marca(
+                        rs.getInt("idMarca"),
+                        rs.getString("marca")
+                );
+
+                producto = new Producto(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        marca,
+                        rs.getDouble("precio")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrar();
+        }
+
+        return producto;
+    }
+
+    public void actualizarStock(int cantidadVendida) {
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO();
+        conexion.abrir();
+        conexion.ejecutar(productoDAO.actualizarStock(this.id, cantidadVendida));
+        conexion.cerrar();
+    }
+
 }

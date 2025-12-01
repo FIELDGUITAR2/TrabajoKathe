@@ -132,11 +132,12 @@ public class ProductoDAO {
         return "SELECT "
                 + "p.idProducto as id, "
                 + "p.nombreProducto as nombre, "
+                + "m.idMarca as idMarca, "
                 + "m.nombreMarca as marca, "
                 + "p.precioUnidad as precio "
                 + "FROM Producto p "
                 + "INNER JOIN marca m ON p.idMarca = m.idMarca "
-                + "WHERE idProducto ="+this.id+";";
+                + "WHERE p.idProducto = "+this.id+";";
     }
 
     public String mostrarListaProductos() {
@@ -148,5 +149,25 @@ public class ProductoDAO {
                 + "FROM Producto p "
                 + "INNER JOIN marca m ON p.idMarca = m.idMarca "
                 + "ORDER BY p.nombreProducto";
+    }
+
+    public String obtenerProductosConStock() {
+        return "SELECT DISTINCT "
+                + "p.idProducto as idProducto, "
+                + "p.nombreProducto as nombre, "
+                + "m.idMarca as idMarca, "
+                + "m.nombreMarca as marca, "
+                + "p.precioUnidad as precio "
+                + "FROM Producto p "
+                + "INNER JOIN marca m ON p.idMarca = m.idMarca "
+                + "INNER JOIN almacen_producto ap ON p.idProducto = ap.idProducto "
+                + "WHERE ap.cantDisp > 0 "
+                + "ORDER BY p.nombreProducto";
+    }
+
+    public String actualizarStock(int idProducto, int cantidadVendida) {
+        return "UPDATE almacen_producto "
+                + "SET cantDisp = cantDisp - " + cantidadVendida + " "
+                + "WHERE idProducto = " + idProducto + " AND cantDisp >= " + cantidadVendida;
     }
 }

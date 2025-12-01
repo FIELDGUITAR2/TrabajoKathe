@@ -4,6 +4,10 @@
  */
 package cedis;
 
+import vista.Formulario;
+import control.Control;
+import java.awt.EventQueue;
+
 /**
  *
  * @author katik
@@ -14,7 +18,11 @@ public class Cedis {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        EventQueue.invokeLater(() -> {
+            Formulario vista = new Formulario();
+            Control controlador = new Control(vista);
+            vista.setVisible(true);
+        });
     }
     
 }

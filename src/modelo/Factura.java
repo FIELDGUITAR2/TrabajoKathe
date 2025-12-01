@@ -1,6 +1,10 @@
 package modelo;
 
 import modelo.Cliente;
+import conexion.ConexionBD;
+import conexion.FacturaDAO;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -45,5 +49,38 @@ public class Factura {
     public String toString() {
         return "Factura{" + "idFactura=" + idFactura + 
                ", cliente=" + (cliente != null ? cliente.getNombre() : "Sin cliente") + '}';
+    }
+
+    public int insertarFactura() {
+        ConexionBD conexion = new ConexionBD();
+        FacturaDAO facturaDAO = new FacturaDAO(0, this.cliente);
+        conexion.abrir();
+        conexion.ejecutar(facturaDAO.insertarFactura());
+        int idFactura = obtenerUltimaFactura();
+        conexion.cerrar();
+        return idFactura;
+    }
+
+    public void insertarProductoEnFactura(int idProducto, int cantidad, double precioVenta) {
+        ConexionBD conexion = new ConexionBD();
+        FacturaDAO facturaDAO = new FacturaDAO();
+        conexion.abrir();
+        conexion.ejecutar(facturaDAO.insertarProductoEnFactura(this.idFactura, idProducto, cantidad, precioVenta));
+        conexion.cerrar();
+    }
+
+    private int obtenerUltimaFactura() {
+        ConexionBD conexion = new ConexionBD();
+        FacturaDAO facturaDAO = new FacturaDAO();
+        int idFactura = 0;
+        try {
+            ResultSet rs = conexion.ejecutarTF(facturaDAO.obtenerUltimaFactura());
+            if (rs.next()) {
+                idFactura = rs.getInt("ultimaFactura");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return idFactura;
     }
 }
