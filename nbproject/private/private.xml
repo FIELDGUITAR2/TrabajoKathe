@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/Producto.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/Marca.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/conexion/MarcaDAO.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/vista/Formulario.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/TipoProducto.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -1,6 +1,7 @@
 package modelo;
 
 import conexion.ConexionBD;
+import conexion.ProductoDAO;
 import conexion.TipoProductoDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,28 +53,31 @@ public class TipoProducto {
                ", nombreTipoProducto='" + nombreTipoProducto + '\'' + '}';
     }
     
-    public List<TipoProducto> consultarListaTiposProducto() {
+    public List<TipoProducto> mostrarTiposProductos()
+    {
+        List<TipoProducto> tProductos = new ArrayList<>();
         ConexionBD conexion = new ConexionBD();
-        TipoProductoDAO tipoProductoDAO = new TipoProductoDAO();
-        List<TipoProducto> tipos = new ArrayList<>();
-        
+        TipoProductoDAO tProductoDAO = new TipoProductoDAO();
+
         try {
             conexion.abrir();
-            ResultSet rs = conexion.ejecutarTF(tipoProductoDAO.consultarListaTiposProducto());
-            
+            ResultSet rs = conexion.ejecutarTF(tProductoDAO.mostrarTiposProductos());
+
             while (rs.next()) {
-                TipoProducto tipo = new TipoProducto(
+                TipoProducto tProducto = new TipoProducto(
                         rs.getInt("idTipoProducto"),
                         rs.getString("nombreTipoProducto")
                 );
-                tipos.add(tipo);
+
+                tProductos.add(tProducto);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexion.cerrar();
         }
-        
-        return tipos;
+
+        return tProductos;
     }
 }
