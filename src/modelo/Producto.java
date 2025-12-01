@@ -145,8 +145,36 @@ public class Producto {
         conexion.cerrar();
     }
 
-    public void mostrarProducto() {
+    public Producto mostrarProducto() {
+        Producto producto = new Producto();
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO();
 
+        try {
+            conexion.abrir();
+            ResultSet rs = conexion.ejecutarTF(productoDAO.mostrarListaProductos());
+
+            while (rs.next()) {
+                Marca marca = new Marca(
+                        rs.getInt("idMarca"),
+                        rs.getString("nombreMarca")
+                );
+
+                        producto = new Producto(
+                        rs.getInt("idProducto"),
+                        rs.getString("nombreProducto"),
+                        marca,
+                        rs.getFloat("precioUnidad")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrar();
+        }
+
+        return producto;
     }
 
     public List<Producto> mostrarListaProductos() {
