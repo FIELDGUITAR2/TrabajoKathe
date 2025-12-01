@@ -1,9 +1,9 @@
 package modelo;
 
-import conexion.ProductoDAO;
+import modelo.TipoProducto;
 import conexion.ConexionBD;
-import conexion.MarcaDAO;
-import conexion.TipoProductoDAO;
+import modelo.Marca;
+import conexion.ProductoDAO;
 
 public class Producto {
 
@@ -106,17 +106,17 @@ public class Producto {
         this.fragil = fragil;
     }
     
-    public boolean insertarProducto()
+    public void insertarProducto()
     {
         ConexionBD conexion = new ConexionBD();
-        TipoProductoDAO tProducto = new TipoProductoDAO();
-        MarcaDAO mProducto = new MarcaDAO();
+        TipoProducto tProducto = this.getTipo();
+        Marca mProducto = this.getMarca();
         ProductoDAO productoDAO = new ProductoDAO(
-        
+        this.id,this.nombre,this.marca,this.precio,this.peso,this.imei,this.tipo,this.fragil
         );
         conexion.abrir();
-        conexion.ejecutarTF(productoDAO.insertarProducto());
+        conexion.ejecutar(productoDAO.insertarProducto());
+        conexion.cerrar();
         
-        return false;
     }
 }
