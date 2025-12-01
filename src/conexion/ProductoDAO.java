@@ -108,7 +108,7 @@ public class ProductoDAO {
     {
         return "insert into producto(nombreProducto,precioUnidad,peso,idTipo,idMarca)\n" +
         "VALUES\n" +
-        "('"+this.nombre+"',"+this.precio+","+this.peso+","+this.tipo.getIdTipoProducto()+","+this.marca.getNombreMarca()+");";
+        "('"+this.nombre+"',"+this.precio+","+this.peso+","+this.tipo.getIdTipoProducto()+","+this.marca.getIdMarca()+");";
         
     }
 }
