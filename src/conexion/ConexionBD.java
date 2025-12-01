@@ -11,6 +11,20 @@ public class ConexionBD {
     private ResultSet resultado;
     private Statement sentencia;
     
+    public ConexionBD()
+    {
+        conexion = null;
+        resultado = null;
+        sentencia = null;
+    }
+    
+    public ConexionBD(Connection conexion, ResultSet resultado, Statement sentencia)
+    {
+        this.conexion = conexion;
+        this.resultado = resultado;
+        this.sentencia = sentencia;
+    }
+    
     // Abrir conexión
     public void abrir() {
         try {

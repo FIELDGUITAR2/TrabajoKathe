@@ -1,6 +1,5 @@
 package conexion;
 
-import modelo.*;
 
 public class ProductoDAO {
 
@@ -101,5 +100,13 @@ public class ProductoDAO {
 
     public void setFragil(boolean fragil) {
         this.fragil = fragil;
+    }
+    
+    public String insertarProducto()
+    {
+        return "insert into producto(nombreProducto,precioUnidad,peso,idTipo,idMarca)\n" +
+        "VALUES\n" +
+        "('"+this.nombre+"',"+this.precio+","+this.peso+","+this.tipo.getIdTipoProducto()+","+this.marca.getNombreMarca()+");";
+        
     }
 }
