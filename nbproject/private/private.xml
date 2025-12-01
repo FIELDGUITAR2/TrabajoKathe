@@ -2,23 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/TipoProductoDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/AlmacenDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/ClienteDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/EstadoAlmacenProductoDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/FacturaDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/ProveedorDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/TipoAlmacenDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/ProductoDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/PersonaDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/MarcaDAO.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/vista/Formulario.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/CedisDB.sql</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/cedis/Cedis.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/control/Control.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/modelo/Producto.java</file>
-            <file>file:/home/fieldguitar/Downloads/cedis/src/conexion/ConexionBD.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

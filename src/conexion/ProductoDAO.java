@@ -129,7 +129,14 @@ public class ProductoDAO {
     }
 
     public String mostrarProducto() {
-        return "";
+        return "SELECT "
+                + "p.idProducto as id, "
+                + "p.nombreProducto as nombre, "
+                + "m.nombreMarca as marca, "
+                + "p.precioUnidad as precio "
+                + "FROM Producto p "
+                + "INNER JOIN marca m ON p.idMarca = m.idMarca "
+                + "WHERE idProducto ="+this.id+";";
     }
 
     public String mostrarListaProductos() {
