@@ -111,4 +111,33 @@ public class ProductoDAO {
         "('"+this.nombre+"',"+this.precio+","+this.peso+","+this.tipo.getIdTipoProducto()+","+this.marca.getIdMarca()+");";
         
     }
+    
+    public String eliminarProducto()
+    {
+        return "DELETE FROM producto\n" +
+                "WHERE idProducto = "+this.getId()+";";
+    }
+    
+    public String actualizarProducto()
+    {
+        return "UPDATE producto\n" +
+"SET nombreProducto = '"+this.nombre+"',\n" +
+"    idTipo = '"+this.getTipo().getIdTipoProducto()+"',\n" +
+"    imei = '"+this.imei+"',\n" +
+"    fragil = "+this.isFragil()+",\n" +
+"    idMarca = "+this.getMarca().getIdMarca()+",\n" +
+"    peso = "+this.peso+",\n" +
+"    precioUnidad = "+this.precio+"\n" +
+"WHERE idProducto = "+this.id+";";
+    }
+    
+    public String mostrarProducto()
+    {
+        return "";
+    }
+    
+    public String mostrarProductos()
+    {
+        return "";
+    }
 }

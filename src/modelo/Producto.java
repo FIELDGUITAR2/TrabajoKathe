@@ -109,14 +109,36 @@ public class Producto {
     public void insertarProducto()
     {
         ConexionBD conexion = new ConexionBD();
-        TipoProducto tProducto = this.getTipo();
-        Marca mProducto = this.getMarca();
         ProductoDAO productoDAO = new ProductoDAO(
         this.id,this.nombre,this.marca,this.precio,this.peso,this.imei,this.tipo,this.fragil
         );
         conexion.abrir();
         conexion.ejecutar(productoDAO.insertarProducto());
         conexion.cerrar();
-        
+    }
+    
+    public void eliminarProducto()
+    {
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO();
+        productoDAO.setId(id);
+        conexion.abrir();
+        conexion.ejecutar(productoDAO.eliminarProducto());
+        conexion.cerrar();
+    }
+    
+    public void actualizarProducto()
+    {
+    
+    }
+    
+    public void mostrarProducto()
+    {
+    
+    }
+    
+    public void mostrarProductos()
+    {
+    
     }
 }
