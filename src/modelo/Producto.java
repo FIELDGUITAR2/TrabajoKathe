@@ -4,6 +4,9 @@ import modelo.TipoProducto;
 import conexion.ConexionBD;
 import modelo.Marca;
 import conexion.ProductoDAO;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.*;
 
 public class Producto {
 
@@ -30,7 +33,7 @@ public class Producto {
 
     // Constructor con parámetros
     public Producto(int id, String nombre, Marca marca, double precio, double peso,
-                    String imei, TipoProducto tipo, boolean fragil) {
+            String imei, TipoProducto tipo, boolean fragil) {
         this.id = id;
         this.nombre = nombre;
         this.marca = marca;
@@ -39,6 +42,13 @@ public class Producto {
         this.imei = imei;
         this.tipo = tipo;
         this.fragil = fragil;
+    }
+
+    public Producto(int id, String nombre, Marca marca, double precio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.marca = marca;
+        this.precio = precio;
     }
 
     // Getters y Setters
@@ -105,20 +115,18 @@ public class Producto {
     public void setFragil(boolean fragil) {
         this.fragil = fragil;
     }
-    
-    public void insertarProducto()
-    {
+
+    public void insertarProducto() {
         ConexionBD conexion = new ConexionBD();
         ProductoDAO productoDAO = new ProductoDAO(
-        this.id,this.nombre,this.marca,this.precio,this.peso,this.imei,this.tipo,this.fragil
+                this.id, this.nombre, this.marca, this.precio, this.peso, this.imei, this.tipo, this.fragil
         );
         conexion.abrir();
         conexion.ejecutar(productoDAO.insertarProducto());
         conexion.cerrar();
     }
-    
-    public void eliminarProducto()
-    {
+
+    public void eliminarProducto() {
         ConexionBD conexion = new ConexionBD();
         ProductoDAO productoDAO = new ProductoDAO();
         productoDAO.setId(id);
@@ -126,19 +134,53 @@ public class Producto {
         conexion.ejecutar(productoDAO.eliminarProducto());
         conexion.cerrar();
     }
-    
-    public void actualizarProducto()
-    {
-    
+
+    public void actualizarProducto() {
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO(
+                this.id, this.nombre, this.marca, this.precio, this.peso, this.imei, this.tipo, this.fragil
+        );
+        conexion.abrir();
+        conexion.ejecutar(productoDAO.actualizarProducto());
+        conexion.cerrar();
     }
-    
-    public void mostrarProducto()
-    {
-    
+
+    public void mostrarProducto() {
+
     }
-    
-    public void mostrarProductos()
-    {
-    
+
+    public List<Producto> mostrarListaProductos() {
+        List<Producto> productos = new ArrayList<>();
+        ConexionBD conexion = new ConexionBD();
+        ProductoDAO productoDAO = new ProductoDAO();
+
+        try {
+            conexion.abrir();
+            ResultSet rs = conexion.ejecutarTF(productoDAO.mostrarListaProductos());
+
+            while (rs.next()) {
+                Marca marca = new Marca(
+                        rs.getInt("idMarca"),
+                        rs.getString("nombreMarca")
+                );
+
+                Producto producto = new Producto(
+                        rs.getInt("idProducto"),
+                        rs.getString("nombreProducto"),
+                        marca,
+                        rs.getFloat("precioUnidad")
+                );
+
+                productos.add(producto);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrar();
+        }
+
+        return productos;
     }
+
 }

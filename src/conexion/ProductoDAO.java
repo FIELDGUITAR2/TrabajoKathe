@@ -28,7 +28,7 @@ public class ProductoDAO {
 
     // Constructor con parámetros
     public ProductoDAO(int id, String nombre, Marca marca, double precio, double peso,
-                    String imei, TipoProducto tipo, boolean fragil) {
+            String imei, TipoProducto tipo, boolean fragil) {
         this.id = id;
         this.nombre = nombre;
         this.marca = marca;
@@ -103,41 +103,43 @@ public class ProductoDAO {
     public void setFragil(boolean fragil) {
         this.fragil = fragil;
     }
-    
-    public String insertarProducto()
-    {
-        return "insert into producto(nombreProducto,precioUnidad,peso,idTipo,idMarca)\n" +
-        "VALUES\n" +
-        "('"+this.nombre+"',"+this.precio+","+this.peso+","+this.tipo.getIdTipoProducto()+","+this.marca.getIdMarca()+");";
-        
+
+    public String insertarProducto() {
+        return "insert into producto(nombreProducto,precioUnidad,peso,idTipo,idMarca)\n"
+                + "VALUES\n"
+                + "('" + this.nombre + "'," + this.precio + "," + this.peso + "," + this.tipo.getIdTipoProducto() + "," + this.marca.getIdMarca() + ");";
+
     }
-    
-    public String eliminarProducto()
-    {
-        return "DELETE FROM producto\n" +
-                "WHERE idProducto = "+this.getId()+";";
+
+    public String eliminarProducto() {
+        return "DELETE FROM producto\n"
+                + "WHERE idProducto = " + this.getId() + ";";
     }
-    
-    public String actualizarProducto()
-    {
-        return "UPDATE producto\n" +
-"SET nombreProducto = '"+this.nombre+"',\n" +
-"    idTipo = '"+this.getTipo().getIdTipoProducto()+"',\n" +
-"    imei = '"+this.imei+"',\n" +
-"    fragil = "+this.isFragil()+",\n" +
-"    idMarca = "+this.getMarca().getIdMarca()+",\n" +
-"    peso = "+this.peso+",\n" +
-"    precioUnidad = "+this.precio+"\n" +
-"WHERE idProducto = "+this.id+";";
+
+    public String actualizarProducto() {
+        return "UPDATE producto\n"
+                + "SET nombreProducto = '" + this.nombre + "',\n"
+                + "    idTipo = '" + this.getTipo().getIdTipoProducto() + "',\n"
+                + "    imei = '" + this.imei + "',\n"
+                + "    fragil = " + this.isFragil() + ",\n"
+                + "    idMarca = " + this.getMarca().getIdMarca() + ",\n"
+                + "    peso = " + this.peso + ",\n"
+                + "    precioUnidad = " + this.precio + "\n"
+                + "WHERE idProducto = " + this.id + ";";
     }
-    
-    public String mostrarProducto()
-    {
+
+    public String mostrarProducto() {
         return "";
     }
-    
-    public String mostrarProductos()
-    {
-        return "";
+
+    public String mostrarListaProductos() {
+        return "SELECT "
+                + "p.idProducto as id, "
+                + "p.nombreProducto as nombre, "
+                + "m.nombreMarca as marca, "
+                + "p.precioUnidad as precio "
+                + "FROM Producto p "
+                + "INNER JOIN marca m ON p.idMarca = m.idMarca "
+                + "ORDER BY p.nombreProducto";
     }
 }
