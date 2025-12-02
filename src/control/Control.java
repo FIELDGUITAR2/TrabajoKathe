@@ -14,12 +14,14 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
 
 public class Control implements ActionListener {
 
     private Formulario vista;
     private DefaultTableModel modeloTablaVenta;
 
+    // Listas internas
     private List<Producto> productosEnFactura = new ArrayList<>();
     private List<Marca> marcasDisponibles = new ArrayList<>();
     private List<TipoProducto> tiposDisponibles = new ArrayList<>();
@@ -29,10 +31,12 @@ public class Control implements ActionListener {
         this.vista = vista;
         this.modeloTablaVenta = (DefaultTableModel) vista.getjTable1().getModel();
 
+        // Eventos
         this.vista.getBtnInsertarEnFactura().addActionListener(this);
         this.vista.getBtnComprar().addActionListener(this);
         this.vista.getBtnIngresarProducto().addActionListener(this);
 
+        // Cargar listas al iniciar
         cargarCatalogosProducto();
         cargarProductosConStock();
     }
@@ -41,11 +45,11 @@ public class Control implements ActionListener {
         vista.setVisible(true);
     }
 
-    public void mostrarMensaje(String mensaje) {
+    private void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(vista, mensaje);
     }
 
-    public void limpiarCampos() {
+    private void limpiarCampos() {
         vista.getTxtCantidad().setText("");
     }
 
@@ -57,55 +61,58 @@ public class Control implements ActionListener {
         cargarProductosConStock();
     }
 
+    // -------------------------------------------------------------------------
+    // ---------------------   CARGA DE COMBOBOXES    --------------------------
+    // -------------------------------------------------------------------------
+
     private void cargarProductosConStock() {
         Producto p = new Producto();
         List<Producto> productos = p.obtenerProductosConStock();
 
-        vista.getCbSeleccionarPr().removeAllItems();
+        JComboBox<Producto> combo = vista.getCbSeleccionarPr();
+        combo.removeAllItems();
+
         for (Producto pr : productos) {
-            vista.getCbSeleccionarPr().addItem(
-                    pr.getNombre() + " (ID: " + pr.getId() + ")"
-            );
+            combo.addItem(pr); // Usa toString() del producto
         }
     }
 
     private void cargarCatalogosProducto() {
         try {
+            // --- Marcas ---
             Marca marcaModelo = new Marca();
             marcasDisponibles = marcaModelo.consultarListaMarcas();
+
             vista.getCbMarca().removeAllItems();
             for (Marca marca : marcasDisponibles) {
                 vista.getCbMarca().addItem(marca.getNombreMarca());
             }
 
+            // --- Tipos ---
             TipoProducto tipoModelo = new TipoProducto();
             tiposDisponibles = tipoModelo.consultarListaTiposProducto();
+
             vista.getCbTipo().removeAllItems();
             for (TipoProducto tipo : tiposDisponibles) {
                 vista.getCbTipo().addItem(tipo.getNombreTipoProducto());
             }
+
         } catch (Exception e) {
             mostrarMensaje("Error al cargar catálogos: " + e.getMessage());
         }
     }
+
+    // -------------------------------------------------------------------------
+    // -------------------   INSERCIÓN DE NUEVO PRODUCTO   ----------------------
+    // -------------------------------------------------------------------------
 
     private void limpiarFormularioProducto() {
         vista.getTxtNombreProducto().setText("");
         vista.getTxtPeso().setText("");
         vista.getTxtPrecio().setText("");
         vista.getTxtImei().setText("");
-        if (vista.getCbMarca().getItemCount() > 0) {
-            vista.getCbMarca().setSelectedIndex(0);
-        }
-        if (vista.getCbTipo().getItemCount() > 0) {
-            vista.getCbTipo().setSelectedIndex(0);
-        }
-    }
-
-    private int extraerIdProducto(String texto) {
-        int inicio = texto.indexOf("(ID: ") + 5;
-        int fin = texto.indexOf(")", inicio);
-        return Integer.parseInt(texto.substring(inicio, fin).trim());
+        vista.getCbMarca().setSelectedIndex(0);
+        vista.getCbTipo().setSelectedIndex(0);
     }
 
     private void insertarNuevoProducto() {
@@ -116,39 +123,21 @@ public class Control implements ActionListener {
                 return;
             }
 
-            if (marcasDisponibles.isEmpty()) {
-                mostrarMensaje("No hay marcas registradas.");
+            int indexMarca = vista.getCbMarca().getSelectedIndex();
+            int indexTipo  = vista.getCbTipo().getSelectedIndex();
+
+            if (indexMarca < 0 || marcasDisponibles.isEmpty()) {
+                mostrarMensaje("Debe seleccionar una marca.");
                 return;
             }
 
-            if (tiposDisponibles.isEmpty()) {
-                mostrarMensaje("No hay tipos de producto registrados.");
+            if (indexTipo < 0 || tiposDisponibles.isEmpty()) {
+                mostrarMensaje("Debe seleccionar un tipo de producto.");
                 return;
             }
 
-            int indiceMarca = vista.getCbMarca().getSelectedIndex();
-            int indiceTipo = vista.getCbTipo().getSelectedIndex();
-
-            if (indiceMarca < 0 || indiceMarca >= marcasDisponibles.size()) {
-                mostrarMensaje("Seleccione una marca válida.");
-                return;
-            }
-
-            if (indiceTipo < 0 || indiceTipo >= tiposDisponibles.size()) {
-                mostrarMensaje("Seleccione un tipo de producto válido.");
-                return;
-            }
-
-            String pesoTexto = vista.getTxtPeso().getText().trim();
-            String precioTexto = vista.getTxtPrecio().getText().trim();
-
-            if (pesoTexto.isEmpty() || precioTexto.isEmpty()) {
-                mostrarMensaje("Peso y precio son obligatorios.");
-                return;
-            }
-
-            double peso = Double.parseDouble(pesoTexto);
-            double precio = Double.parseDouble(precioTexto);
+            double peso = Double.parseDouble(vista.getTxtPeso().getText());
+            double precio = Double.parseDouble(vista.getTxtPrecio().getText());
 
             if (peso <= 0 || precio <= 0) {
                 mostrarMensaje("Peso y precio deben ser mayores que cero.");
@@ -156,74 +145,65 @@ public class Control implements ActionListener {
             }
 
             String imei = vista.getTxtImei().getText().trim();
-            Marca marcaSeleccionada = marcasDisponibles.get(indiceMarca);
-            TipoProducto tipoSeleccionado = tiposDisponibles.get(indiceTipo);
 
-            Producto producto = new Producto();
-            producto.setNombre(nombre);
-            producto.setMarca(marcaSeleccionada);
-            producto.setTipo(tipoSeleccionado);
-            producto.setPeso(peso);
-            producto.setPrecio(precio);
-            producto.setImei(imei.isEmpty() ? null : imei);
-            producto.setFragil(!imei.isEmpty());
-            producto.insertarProducto();
+            // Construcción del producto
+            Producto nuevo = new Producto();
+            nuevo.setNombre(nombre);
+            nuevo.setPeso(peso);
+            nuevo.setPrecio(precio);
+            nuevo.setMarca(marcasDisponibles.get(indexMarca));
+            nuevo.setTipo(tiposDisponibles.get(indexTipo));
+            nuevo.setImei(imei.isEmpty() ? null : imei);
+            nuevo.setFragil(!imei.isEmpty());
+
+            nuevo.insertarProducto();
 
             mostrarMensaje("Producto ingresado correctamente.");
             limpiarFormularioProducto();
-            cargarCatalogosProducto();
             cargarProductosConStock();
-        } catch (NumberFormatException ex) {
+
+        } catch (NumberFormatException e) {
             mostrarMensaje("Peso y precio deben ser números válidos.");
         } catch (Exception ex) {
             mostrarMensaje("Error al ingresar producto: " + ex.getMessage());
         }
     }
 
+    // -------------------------------------------------------------------------
+    // -------------------------   EVENTOS DE BOTONES    ------------------------
+    // -------------------------------------------------------------------------
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
 
-        if (source == vista.getBtnInsertarEnFactura()) {
+        // ---------------------------------------------------------------------
+        // BOTÓN: Insertar en factura
+        // ---------------------------------------------------------------------
+        if (e.getSource() == vista.getBtnInsertarEnFactura()) {
             try {
 
-                String seleccionado = (String) vista.getCbSeleccionarPr().getSelectedItem();
-                if (seleccionado == null) {
+                Producto productoSeleccionado = 
+                    (Producto) vista.getCbSeleccionarPr().getSelectedItem();
+
+                if (productoSeleccionado == null) {
                     mostrarMensaje("Seleccione un producto.");
                     return;
                 }
 
-                int idProducto = extraerIdProducto(seleccionado);
-
-                String txtCantidad = vista.getTxtCantidad().getText().trim();
-                if (txtCantidad.isEmpty()) {
-                    mostrarMensaje("Ingrese la cantidad.");
-                    return;
-                }
-
-                int cantidad = Integer.parseInt(txtCantidad);
+                int cantidad = Integer.parseInt(vista.getTxtCantidad().getText().trim());
                 if (cantidad <= 0) {
                     mostrarMensaje("La cantidad debe ser mayor que 0.");
                     return;
                 }
 
-                // Buscar producto
-                Producto prod = new Producto();
-                Producto productoEncontrado = prod.buscarProductoPorId(idProducto);
-
-                if (productoEncontrado == null) {
-                    mostrarMensaje("Producto no encontrado.");
-                    return;
-                }
-
-                double precioUnitario = productoEncontrado.getPrecio();
+                double precioUnitario = productoSeleccionado.getPrecio();
                 double precioTotal = cantidad * precioUnitario;
 
-                productosEnFactura.add(productoEncontrado);
+                productosEnFactura.add(productoSeleccionado);
 
                 Object[] fila = {
-                    productoEncontrado.getId(),
-                    productoEncontrado.getNombre(),
+                    productoSeleccionado.getId(),
+                    productoSeleccionado.getNombre(),
                     cantidad,
                     precioUnitario,
                     precioTotal
@@ -234,15 +214,16 @@ public class Control implements ActionListener {
 
                 limpiarCampos();
 
-            } catch (NumberFormatException ex) {
-                mostrarMensaje("La cantidad debe ser un número válido.");
             } catch (Exception ex) {
                 mostrarMensaje("Error al insertar producto: " + ex.getMessage());
             }
             return;
         }
 
-        if (source == vista.getBtnComprar()) {
+        // ---------------------------------------------------------------------
+        // BOTÓN: Comprar
+        // ---------------------------------------------------------------------
+        if (e.getSource() == vista.getBtnComprar()) {
             try {
 
                 if (productosEnFactura.isEmpty()) {
@@ -250,17 +231,15 @@ public class Control implements ActionListener {
                     return;
                 }
 
-                // Cliente por defecto
                 Cliente cliente = new Cliente(1, "Cliente General", "", "");
 
-                // Crear y registrar factura
                 Factura factura = new Factura();
                 factura.setCliente(cliente);
 
                 int idFactura = factura.insertarFactura();
                 factura.setIdFactura(idFactura);
 
-                // Guardar cada producto en BD + actualizar stock
+                // Guardar detalles de la factura
                 for (int i = 0; i < productosEnFactura.size(); i++) {
                     Producto producto = productosEnFactura.get(i);
                     int cantidad = (Integer) modeloTablaVenta.getValueAt(i, 2);
@@ -271,9 +250,9 @@ public class Control implements ActionListener {
                 }
 
                 mostrarMensaje(
-                        "¡Compra realizada exitosamente!\n" +
-                        "Factura: " + idFactura + "\n" +
-                        "Total: $" + String.format("%.2f", totalCompra)
+                    "¡Compra realizada exitosamente!\n" +
+                    "Factura: " + idFactura + "\n" +
+                    "Total: $" + String.format("%.2f", totalCompra)
                 );
 
                 limpiarFactura();
@@ -284,7 +263,10 @@ public class Control implements ActionListener {
             return;
         }
 
-        if (source == vista.getBtnIngresarProducto()) {
+        // ---------------------------------------------------------------------
+        // BOTÓN: Ingresar producto
+        // ---------------------------------------------------------------------
+        if (e.getSource() == vista.getBtnIngresarProducto()) {
             insertarNuevoProducto();
         }
     }

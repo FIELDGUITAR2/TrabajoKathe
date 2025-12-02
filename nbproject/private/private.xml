@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/LlenarDB.sql</file>
             <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/TipoAlmacenDAO.java</file>
             <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/TipoProducto.java</file>
@@ -21,6 +22,14 @@
             <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Persona.java</file>
             <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Marca.java</file>
             <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Almacen.java</file>
+=======
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/Producto.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/Marca.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/conexion/MarcaDAO.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/vista/Formulario.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/TipoProducto.java</file>
+            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/control/Control.java</file>
+>>>>>>> 7352ca9 (Primer box)
         </group>
     </open-files>
 </project-private>
