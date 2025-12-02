@@ -3,11 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/Producto.java</file>
-            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/Marca.java</file>
-            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/conexion/MarcaDAO.java</file>
-            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/vista/Formulario.java</file>
-            <file>file:/home/fieldguitar/Documents/TrabajoKathe/src/modelo/TipoProducto.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/LlenarDB.sql</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/TipoAlmacenDAO.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/TipoProducto.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/CedisDB.sql</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/ProductoDAO.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/control/Control.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Factura.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Cliente.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/ConexionBD.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/EstadoAlmacenProducto.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/FacturaProducto.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/conexion/FacturaDAO.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Producto.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/vista/Formulario.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/AlmacenProducto.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Persona.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Marca.java</file>
+            <file>file:/C:/Users/katik/TrabajoKathe/src/modelo/Almacen.java</file>
         </group>
     </open-files>
 </project-private>
