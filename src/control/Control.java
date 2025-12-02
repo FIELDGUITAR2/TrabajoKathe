@@ -26,6 +26,7 @@ public class Control implements ActionListener {
     private List<Marca> marcasDisponibles = new ArrayList<>();
     private List<TipoProducto> tiposDisponibles = new ArrayList<>();
     private double totalCompra = 0.0;
+    JComboBox<String> combo;
 
     public Control(Formulario vista) {
         this.vista = vista;
@@ -68,12 +69,13 @@ public class Control implements ActionListener {
     private void cargarProductosConStock() {
         Producto p = new Producto();
         List<Producto> productos = p.obtenerProductosConStock();
-
-        JComboBox<Producto> combo = vista.getCbSeleccionarPr();
+        combo = new JComboBox<>();
         combo.removeAllItems();
-
-        for (Producto pr : productos) {
-            combo.addItem(pr); // Usa toString() del producto
+        combo = vista.getCbSeleccionarPr();
+        
+        for(Producto a: productos) 
+        {
+            combo.addItem(a.getNombre());
         }
     }
 
@@ -90,7 +92,7 @@ public class Control implements ActionListener {
 
             // --- Tipos ---
             TipoProducto tipoModelo = new TipoProducto();
-            tiposDisponibles = tipoModelo.consultarListaTiposProducto();
+            tiposDisponibles = tipoModelo.mostrarTiposProductos();
 
             vista.getCbTipo().removeAllItems();
             for (TipoProducto tipo : tiposDisponibles) {
